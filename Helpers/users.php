@@ -1,0 +1,93 @@
+<?php
+if (!function_exists('getUsersFileName')) {
+    function getUsersFileName()
+    {
+        if(!file_exists(__DIR__ . '/../Storage')){
+            mkdir(__DIR__ . '/../Storage', 0777, true);
+        }
+        return __DIR__ . '/../Storage/users.json';
+    }
+};
+if (!function_exists('getUsers')) {
+    function getUsers(): array
+    {
+        $str = file_exists(getUsersFileName()) ? file_get_contents(getUsersFileName()) : '';
+        return json_decode($str, true) ?? [];
+    }
+};
+if (!function_exists('getUserById')) {
+    function getUserById(int $id): ?array
+    {
+        $users = getUsers();
+        foreach ($users as $user) {
+            if ($user['id'] === $id) {
+                return $user;
+            }
+        }
+        return null;
+    }
+};
+if (!function_exists('addUser')) {
+    function addUser(array $user)
+    {
+        $users = getUsers();
+        $lastUser = array_last($users);
+        $lastId = !is_null($lastUser) ? $lastUser['id'] : 0;
+        $nextId = $lastId + 1;
+        $user['id'] = $nextId;
+        $users[] = $user;
+        $jsonStr = json_encode($users, JSON_PRETTY_PRINT);
+        file_put_contents(getUsersFileName(), $jsonStr);
+
+        return $user;
+    }
+};
+if (!function_exists('updateUser')) {
+    function updateUser(int $id, array $userData)
+    {
+        $users = getUsers();
+        foreach ($users as $key => $user) {
+            if ($user['id'] === $id) {
+                $newData = array_merge($user, $userData);
+                $users[$key] = $newData;
+                break;
+            }
+        }
+        $jsonStr = json_encode($users, JSON_PRETTY_PRINT);
+        file_put_contents(getUsersFileName(), $jsonStr);
+
+        return $user;
+    }
+};
+
+if(!function_exists('defaultProfileImage')){
+    function defaultProfileImage($id): string{
+        return "https://avatars.laravel.cloud/Marmazya_$id?vibe=sunset";
+    }
+}
+if(!function_exists('anonymousUser')){
+    function anonymousUser(): array{
+        return [
+            'id' => null,
+            'name' => 'Anonymous',
+            'profile_image' => 'https://avatars.laravel.cloud/Marmazya_anonymous?vibe=sunset',
+        ];
+    }
+}
+
+if (!function_exists('authOnly()')) {
+    function authOnly()
+    {
+        if (empty($_SESSION['user'])) {
+            redirect('login');
+        }
+    }
+};
+if (!function_exists('guestOnly()')) {
+    function guestOnly()
+    {
+        if (!empty($_SESSION['user'])) {
+            redirect('home');
+        }
+    }
+};
