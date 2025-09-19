@@ -6,7 +6,7 @@ $posts = array_reverse(getPosts());
 
 <div class="max-w-2xl mx-auto">
 
-  <div class="card bg-base-100 shadow mt-8 mb-6">
+  <div class="card bg-base-100 shadow mt-7 mb-6">
     <div class="card-body">
       <form method="POST" action="/Logic/post.php">
 
