@@ -6,8 +6,8 @@ $errors = !empty($_SESSION['errors']) ? $_SESSION['errors'] : [];
 unset($_SESSION['errors'], $_SESSION['old']);
 ?>
 <div class="hero min-h-[calc(100vh-16rem)]">
-    <div class="hero-content flex-col w-full px-2">
-        <div class="card w-full max-w-sm mx-auto bg-base-100">
+    <div class="hero-content flex-col">
+        <div class="card w-96 bg-base-100">
             <div class="card-body">
                 <h1 class="text-3xl font-bold text-center mb-6">Edit Profile</h1>
 
@@ -72,7 +72,7 @@ unset($_SESSION['errors'], $_SESSION['old']);
                     </label>
 
                     <!-- Simple custom file input -->
-                    <div class="flex flex-col sm:flex-row items-center gap-3">
+                    <div class="flex items-center gap-3">
                         <label for="profile_image" class="cursor-pointer inline-flex items-center gap-2 px-4 py-2 border rounded-md shadow-sm hover:bg-gray-50">
                             <!-- Icon (optional) -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -83,7 +83,7 @@ unset($_SESSION['errors'], $_SESSION['old']);
                             <input id="profile_image" name="profile_image" type="file" accept=".png, .jpg, .jpeg" class="sr-only">
                         </label>
 
-                        <p id="file-name" class="text-sm text-gray-500 mt-2 sm:mt-0">No file chosen</p>
+                        <p id="file-name" class="text-sm text-gray-500">No file chosen</p>
                     </div>
                     <?php if (!empty($errors['profile_image'])): ?>
                         <div class="label -mt-4 mb-2 mb-4">
