@@ -70,13 +70,12 @@
                 <a href="/Views/register.php" class="btn btn-primary btn-sm w-full">Sign Up</a>
             <?php else : ?>
                 <span class="flex items-center gap-2 px-3 py-1 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg shadow-sm">
-                <img src="<?= $_SESSION['user']['profile_image'] ?? defaultProfileImage($_SESSION['user']['id']) ?>"
-                    alt="Profile"
-                    class="w-8 h-8 rounded-full object-cover border" />
-                👋 Welcome,
-                <span class="font-semibold text-primary">
-                    <?= htmlspecialchars($_SESSION['user']['name']) ?>
-                </span>
+                    <img src="<?= $_SESSION['user']['profile_image'] ?? defaultProfileImage($_SESSION['user']['id']) ?>"
+                        alt="Profile"
+                        class="w-8 h-8 rounded-full object-cover border" />
+                    <span class="font-semibold text-primary">
+                        <?= htmlspecialchars($_SESSION['user']['name']) ?>
+                    </span>
                 </span>
                 <a href="/Views/edit.php" class="btn btn-ghost btn-sm w-full">Edit Profile</a>
                 <a href="/Logic/logout.php" class="btn btn-primary btn-sm w-full">Log Out</a>
