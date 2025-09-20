@@ -7,78 +7,86 @@ $old = !empty($_SESSION['old']) ? $_SESSION['old'] : [];
 unset($_SESSION['errors'], $_SESSION['old']);
 ?>
 <div class="hero min-h-[calc(100vh-16rem)]">
-    <div class="hero-content flex-col">
-        <div class="card w-96 bg-base-100">
-            <div class="card-body">
-                <h1 class="text-3xl font-bold text-center mb-6">Create Account</h1>
+    <div class="hero-content flex-col w-full max-w-md mx-auto px-4">
+        <div class="card w-full max-w-sm bg-base-100 shadow-xl">
+            <div class="card-body p-4 sm:p-6">
+                <h1 class="text-2xl sm:text-3xl font-bold text-center mb-4 sm:mb-6">Create Account</h1>
 
-                <form method="POST" action="../Logic/register.php">
+                <form method="POST" action="../Logic/register.php" class="space-y-4">
                     <!-- Name -->
-                    <label class="floating-label mb-3">
-                        <input type="text"
-                               name="name"
-                               placeholder="John Doe"
-                               value="<?= htmlspecialchars($old['name'] ?? '') ?>"
-                               class="input input-bordered<?php if (!empty($errors['name'])) echo ' input-error'; ?>"
-                               required>
-                        <span>Name</span>
-                    </label>
-                    <?php if (!empty($errors['name'])): ?>
-                        <div class="label -mt-4 mb-2 mb-4">
-                            <span class="label-text-alt text-error"><?= $errors['name'] ?></span>
-                        </div>
-                    <?php endif; ?>
+                    <div class="form-control">
+                        <label class="floating-label">
+                            <input type="text"
+                                   name="name"
+                                   placeholder="John Doe"
+                                   value="<?= htmlspecialchars($old['name'] ?? '') ?>"
+                                   class="input input-bordered w-full<?php if (!empty($errors['name'])) echo ' input-error'; ?>"
+                                   required>
+                            <span>Name</span>
+                        </label>
+                        <?php if (!empty($errors['name'])): ?>
+                            <div class="label -mt-2">
+                                <span class="label-text-alt text-error"><?= $errors['name'] ?></span>
+                            </div>
+                        <?php endif; ?>
+                    </div>
 
                     <!-- Email -->
-                    <label class="floating-label mb-3">
-                        <input type="email"
-                               name="email"
-                               placeholder="mail@example.com"
-                               value="<?= htmlspecialchars($old['email'] ?? '') ?>"
-                               class="input input-bordered<?php if (!empty($errors['email'])) echo ' input-error'; ?>"
-                               required>
-                        <span>Email</span>
-                    </label>
-                    <?php if (!empty($errors['email'])): ?>
-                        <div class="label -mt-4 mb-2 mb-4">
-                            <span class="label-text-alt text-error"><?= $errors['email'] ?></span>
-                        </div>
-                    <?php endif; ?>
+                    <div class="form-control">
+                        <label class="floating-label">
+                            <input type="email"
+                                   name="email"
+                                   placeholder="mail@example.com"
+                                   value="<?= htmlspecialchars($old['email'] ?? '') ?>"
+                                   class="input input-bordered w-full<?php if (!empty($errors['email'])) echo ' input-error'; ?>"
+                                   required>
+                            <span>Email</span>
+                        </label>
+                        <?php if (!empty($errors['email'])): ?>
+                            <div class="label -mt-2">
+                                <span class="label-text-alt text-error"><?= $errors['email'] ?></span>
+                            </div>
+                        <?php endif; ?>
+                    </div>
 
                     <!-- Password -->
-                    <label class="floating-label mb-3">
-                        <input type="password"
-                               name="password"
-                               placeholder="••••••••"
-                               class="input input-bordered<?php if (!empty($errors['password'])) echo ' input-error'; ?>"
-                               required>
-                        <span>Password</span>
-                    </label>
-                    <?php if (!empty($errors['password'])): ?>
-                        <div class="label -mt-4 mb-2 mb-4">
-                            <span class="label-text-alt text-error"><?= $errors['password'] ?></span>
-                        </div>
-                    <?php endif; ?>
+                    <div class="form-control">
+                        <label class="floating-label">
+                            <input type="password"
+                                   name="password"
+                                   placeholder="••••••••"
+                                   class="input input-bordered w-full<?php if (!empty($errors['password'])) echo ' input-error'; ?>"
+                                   required>
+                            <span>Password</span>
+                        </label>
+                        <?php if (!empty($errors['password'])): ?>
+                            <div class="label -mt-2">
+                                <span class="label-text-alt text-error"><?= $errors['password'] ?></span>
+                            </div>
+                        <?php endif; ?>
+                    </div>
 
                     <!-- Password Confirmation -->
-                    <label class="floating-label mb-3">
-                        <input type="password"
-                               name="password_confirmation"
-                               placeholder="••••••••"
-                               class="input input-bordered"
-                               required>
-                        <span>Confirm Password</span>
-                    </label>
+                    <div class="form-control">
+                        <label class="floating-label">
+                            <input type="password"
+                                   name="password_confirmation"
+                                   placeholder="••••••••"
+                                   class="input input-bordered w-full"
+                                   required>
+                            <span>Confirm Password</span>
+                        </label>
+                    </div>
 
                     <!-- Submit Button -->
-                    <div class="form-control mt-8">
-                        <button type="submit" class="btn btn-primary btn-sm w-full">
+                    <div class="form-control mt-6">
+                        <button type="submit" class="btn btn-primary w-full">
                             Register
                         </button>
                     </div>
                 </form>
 
-                <div class="divider">OR</div>
+                <div class="divider my-4">OR</div>
                 <p class="text-center text-sm">
                     Already have an account?
                     <a href="login.php" class="link link-primary">Sign in</a>
