@@ -36,27 +36,62 @@
             </a>
         </div>
         <div class="navbar-end gap-2">
+            <!-- Mobile menu button -->
+            <div class="lg:hidden">
+            <button class="btn btn-ghost btn-sm" onclick="document.getElementById('mobileMenu').classList.toggle('hidden')">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+            </div>
+            <!-- Desktop menu -->
+            <div class="hidden lg:flex gap-2 items-center">
             <?php if (empty($_SESSION['user'])) : ?>
                 <a href="/Views/login.php" class="btn btn-ghost btn-sm">Sign In</a>
                 <a href="/Views/register.php" class="btn btn-primary btn-sm">Sign Up</a>
             <?php else : ?>
                 <span class="flex items-center gap-2 px-3 py-1 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg shadow-sm">
-                    <!-- صورة اليوزر -->
-                    <img src="<?= $_SESSION['user']['profile_image'] ?? defaultProfileImage($_SESSION['user']['id']) ?>"
-                        alt="Profile"
-                        class="w-8 h-8 rounded-full object-cover border" />
-
-                    <!-- الاسم -->
-                    👋 Welcome,
-                    <span class="font-semibold text-primary">
-                        <?= htmlspecialchars($_SESSION['user']['name']) ?>
-                    </span>
+                <img src="<?= $_SESSION['user']['profile_image'] ?? defaultProfileImage($_SESSION['user']['id']) ?>"
+                    alt="Profile"
+                    class="w-8 h-8 rounded-full object-cover border" />
+                👋 Welcome,
+                <span class="font-semibold text-primary">
+                    <?= htmlspecialchars($_SESSION['user']['name']) ?>
+                </span>
                 </span>
                 <a href="/Views/edit.php" class="btn btn-ghost btn-sm">Edit Profile</a>
                 <a href="/Logic/logout.php" class="btn btn-primary btn-sm">Log Out</a>
             <?php endif; ?>
-
+            </div>
+            <!-- Mobile dropdown menu -->
+            <div id="mobileMenu" class="absolute right-4 top-16 z-50 bg-base-100 rounded-lg shadow-lg p-4 flex flex-col gap-2 w-56 lg:hidden hidden">
+            <?php if (empty($_SESSION['user'])) : ?>
+                <a href="/Views/login.php" class="btn btn-ghost btn-sm w-full">Sign In</a>
+                <a href="/Views/register.php" class="btn btn-primary btn-sm w-full">Sign Up</a>
+            <?php else : ?>
+                <span class="flex items-center gap-2 px-3 py-1 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg shadow-sm">
+                    <img src="<?= $_SESSION['user']['profile_image'] ?? defaultProfileImage($_SESSION['user']['id']) ?>"
+                        alt="Profile"
+                        class="w-8 h-8 rounded-full object-cover border" />
+                    <span class="font-semibold text-primary">
+                        <?= htmlspecialchars($_SESSION['user']['name']) ?>
+                    </span>
+                </span>
+                <a href="/Views/edit.php" class="btn btn-ghost btn-sm w-full">Edit Profile</a>
+                <a href="/Logic/logout.php" class="btn btn-primary btn-sm w-full">Log Out</a>
+            <?php endif; ?>
+            </div>
         </div>
+        <script>
+            // Optional: Close mobile menu when clicking outside
+            document.addEventListener('click', function(e) {
+                const menu = document.getElementById('mobileMenu');
+                const button = document.querySelector('.lg\\:hidden button');
+                if (!menu.classList.contains('hidden') && !menu.contains(e.target) && !button.contains(e.target)) {
+                    menu.classList.add('hidden');
+                }
+            });
+        </script>
 
     </nav>
 
