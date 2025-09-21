@@ -26,7 +26,7 @@ if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPL
     }
 
     // Validate file size
-    if ($fileSize > 3 * 1024 * 1024) {
+    if ($fileSize > 10 * 1024 * 1024) {
         $errors['profile_image'] = 'File size must be less than 3MB.';
     }
 }
