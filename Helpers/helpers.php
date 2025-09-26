@@ -130,3 +130,11 @@ if (!function_exists('diffForHumans')) {
         return 'just now';
     }
 }
+
+if (!function_exists('saveArrayToJsonFile')) {
+    function saveArrayToJsonFile(string $filename, array $data)
+    {
+        $jsonStr = json_encode($data, JSON_PRETTY_PRINT);
+        file_put_contents($filename, $jsonStr);
+    }
+}

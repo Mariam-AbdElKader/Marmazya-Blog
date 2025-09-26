@@ -8,6 +8,7 @@ if (!function_exists('getPostsFileName')) {
         return __DIR__ . '/../Storage/posts.json';
     }
 };
+
 if (!function_exists('getPosts')) {
     function getPosts(): array
     {
@@ -15,6 +16,14 @@ if (!function_exists('getPosts')) {
         return json_decode($str, true) ?? [];
     }
 };
+
+if (!function_exists('savePosts')) {
+    function savePosts(array $posts)
+    {
+        saveArrayToJsonFile(getPostsFileName(), $posts);
+    }
+}
+
 if (!function_exists('getPostById')) {
     function getPostById(int $id): ?array
     {
@@ -27,6 +36,7 @@ if (!function_exists('getPostById')) {
         return null;
     }
 };
+
 if (!function_exists('addPost')) {
     function addPost(array $post)
     {
@@ -36,12 +46,12 @@ if (!function_exists('addPost')) {
         $nextId = $lastId + 1;
         $post['id'] = $nextId;
         $posts[] = $post;
-        $jsonStr = json_encode($posts, JSON_PRETTY_PRINT);
-        file_put_contents(getPostsFileName(), $jsonStr);
+        savePosts($posts);
 
         return $post;
     }
 };
+
 if (!function_exists('updatePost')) {
     function updatePost(int $id, string $message)
     {
@@ -52,12 +62,12 @@ if (!function_exists('updatePost')) {
                 break;
             }
         }
-        $jsonStr = json_encode($posts, JSON_PRETTY_PRINT);
-        file_put_contents(getPostsFileName(), $jsonStr);
+        savePosts($posts);
 
         return $post;
     }
 };
+
 if (!function_exists('deletePost')) {
     function deletePost(int $id)
     {
@@ -68,9 +78,8 @@ if (!function_exists('deletePost')) {
                 break;
             }
         }
-        $posts = array_values($posts); // Reindex the array
-        $jsonStr = json_encode($posts, JSON_PRETTY_PRINT);
-        file_put_contents(getPostsFileName(), $jsonStr);
+        $posts = array_values($posts); // Reset the keys after deletion
+        savePosts($posts);
 
         return $post;
     }

@@ -8,6 +8,7 @@ if (!function_exists('getUsersFileName')) {
         return __DIR__ . '/../Storage/users.json';
     }
 };
+
 if (!function_exists('getUsers')) {
     function getUsers(): array
     {
@@ -15,6 +16,14 @@ if (!function_exists('getUsers')) {
         return json_decode($str, true) ?? [];
     }
 };
+
+if (!function_exists('saveUsers')) {
+    function saveUsers(array $users)
+    {
+        saveArrayToJsonFile(getUsersFileName(), $users);
+    }
+}
+
 if (!function_exists('getUserById')) {
     function getUserById(int $id): ?array
     {
@@ -27,6 +36,7 @@ if (!function_exists('getUserById')) {
         return null;
     }
 };
+
 if (!function_exists('addUser')) {
     function addUser(array $user)
     {
@@ -36,12 +46,12 @@ if (!function_exists('addUser')) {
         $nextId = $lastId + 1;
         $user['id'] = $nextId;
         $users[] = $user;
-        $jsonStr = json_encode($users, JSON_PRETTY_PRINT);
-        file_put_contents(getUsersFileName(), $jsonStr);
+        saveUsers($users);
 
         return $user;
     }
 };
+
 if (!function_exists('updateUser')) {
     function updateUser(int $id, array $userData)
     {
@@ -53,8 +63,7 @@ if (!function_exists('updateUser')) {
                 break;
             }
         }
-        $jsonStr = json_encode($users, JSON_PRETTY_PRINT);
-        file_put_contents(getUsersFileName(), $jsonStr);
+        saveUsers($users);
 
         return $user;
     }
