@@ -1,7 +1,5 @@
 <?php
 session_start();
-require_once 'users.php';
-require_once 'posts.php';
 
 if (!function_exists('sanitize')) {
     function sanitize(string $string)
@@ -138,3 +136,6 @@ if (!function_exists('saveArrayToJsonFile')) {
         file_put_contents($filename, $jsonStr);
     }
 }
+
+require_once 'users.php';
+require_once 'posts.php';
