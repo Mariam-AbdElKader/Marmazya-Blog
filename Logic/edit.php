@@ -27,37 +27,37 @@ if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPL
 
     // Validate file size
     if ($fileSize > 10 * 1024 * 1024) {
-        $errors['profile_image'] = 'File size must be less than 3MB.';
+        $errors['profile_image'] = 'File size must be less than 10MB.';
     }
 }
 
 
-if (empty($errors)) {
-    if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPLOAD_ERR_OK) {
-        $uploadDir = __DIR__ . '/../Storage/images/users/';
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0755, true);
-        }
-        $fileExtension = pathinfo($_FILES['profile_image']['name'], PATHINFO_EXTENSION);
-        $fileName = uniqid('user_') . '.' . $fileExtension;
-        $uploadFilePath = $uploadDir . $fileName;
-
-        if (move_uploaded_file($_FILES['profile_image']['tmp_name'], $uploadFilePath)) {
-            $data['profile_image'] = '/Storage/images/users/' . $fileName;
-            // Optionally, delete the old image if it exists
-            if (!empty($_SESSION['user']['profile_image']) && file_exists(__DIR__ . '/..' . $_SESSION['user']['profile_image'])) {
-                unlink(__DIR__ . '/..' . $_SESSION['user']['profile_image']);
-            }
-        }
-    } else {
-        // If no new image is uploaded, retain the old image path
-        $data['profile_image'] = $_SESSION['user']['profile_image'] ?? null;
-    }
-    unset($data['password_confirmation']);
-    $_SESSION['user'] = array_merge($_SESSION['user'], $data);
-    updateUser($_SESSION['user']['id'], $data);
-    redirect('home');
-} else {
+if (!empty($errors)) {
     $_SESSION['errors'] = $errors;
     redirect('edit');
 }
+
+if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPLOAD_ERR_OK) {
+    $uploadDir = __DIR__ . '/../Storage/images/users/';
+    if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0755, true);
+    }
+    $fileExtension = pathinfo($_FILES['profile_image']['name'], PATHINFO_EXTENSION);
+    $fileName = uniqid('user_') . '.' . $fileExtension;
+    $uploadFilePath = $uploadDir . $fileName;
+
+    if (move_uploaded_file($_FILES['profile_image']['tmp_name'], $uploadFilePath)) {
+        $data['profile_image'] = '/Storage/images/users/' . $fileName;
+        // Optionally, delete the old image if it exists
+        if (!empty($_SESSION['user']['profile_image']) && file_exists(__DIR__ . '/..' . $_SESSION['user']['profile_image'])) {
+            unlink(__DIR__ . '/..' . $_SESSION['user']['profile_image']);
+        }
+    }
+} else {
+    // If no new image is uploaded, retain the old image path
+    $data['profile_image'] = $_SESSION['user']['profile_image'] ?? null;
+}
+unset($data['password_confirmation']);
+$_SESSION['user'] = array_merge($_SESSION['user'], $data);
+updateUser($_SESSION['user']['id'], $data);
+redirect('home');
