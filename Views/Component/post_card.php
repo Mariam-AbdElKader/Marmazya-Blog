@@ -39,7 +39,7 @@
                 </div>
 
                 <p class="mt-1">
-                    <?= nl2br(htmlspecialchars($post['message'])) ?>
+                    <?= nl2br($post['message']) ?>
                 </p>
             </div>
         </div>

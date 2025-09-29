@@ -18,7 +18,7 @@ $post = getPostById($id);
             placeholder="What's on your mind?"
             class="textarea textarea-bordered w-full resize-none"
             rows="4"
-            maxlength="255"
+            maxlength="<?= getPostMaxLength() ?>"
             required><?= $post['message'] ?></textarea>
         </div>
 

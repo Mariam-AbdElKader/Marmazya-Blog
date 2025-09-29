@@ -1,4 +1,11 @@
 <?php
+if(!function_exists('getPostMaxLength')){
+    function getPostMaxLength(): int
+    {
+        return 1500;
+    }
+}
+
 if (!function_exists('getPostsFileName')) {
     function getPostsFileName()
     {
