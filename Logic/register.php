@@ -18,7 +18,7 @@ $errors = validate($data, $rules);
 
 if (empty($errors)) {
     $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
-    $userId = addUserToDb($data);
+    $userId = addUser($data);
     $_SESSION['user_id'] = $userId;
 
     redirect('home');

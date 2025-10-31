@@ -46,17 +46,17 @@
             </div>
             <!-- Desktop menu -->
             <div class="hidden lg:flex gap-2 items-center">
-            <?php if (!$currentUser) : ?>
+            <?php if (!currentUser()) : ?>
                 <a href="/Views/login.php" class="btn btn-ghost btn-sm">Sign In</a>
                 <a href="/Views/register.php" class="btn btn-primary btn-sm">Sign Up</a>
             <?php else : ?>
                 <span class="flex items-center gap-2 px-3 py-1 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg shadow-sm">
-                <img src="<?= $currentUser['profile_image'] ?? defaultProfileImage($currentUser['id']) ?>"
+                <img src="<?= currentUser()['profile_image'] ?? defaultProfileImage(currentUser()['id']) ?>"
                     alt="Profile"
                     class="w-8 h-8 rounded-full object-cover border" />
                 👋 Welcome,
                 <span class="font-semibold text-primary">
-                    <?= htmlspecialchars($currentUser['name']) ?>
+                    <?= htmlspecialchars(currentUser()['name']) ?>
                 </span>
                 </span>
                 <a href="/Views/edit.php" class="btn btn-ghost btn-sm">Edit Profile</a>
@@ -65,16 +65,16 @@
             </div>
             <!-- Mobile dropdown menu -->
             <div id="mobileMenu" class="absolute right-4 top-16 z-50 bg-base-100 rounded-lg shadow-lg p-4 flex flex-col gap-2 w-56 lg:hidden hidden">
-            <?php if (!$currentUser) : ?>
+            <?php if (!currentUser()) : ?>
                 <a href="/Views/login.php" class="btn btn-ghost btn-sm w-full">Sign In</a>
                 <a href="/Views/register.php" class="btn btn-primary btn-sm w-full">Sign Up</a>
             <?php else : ?>
                 <span class="flex items-center gap-2 px-3 py-1 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg shadow-sm">
-                    <img src="<?= $currentUser['profile_image'] ?? defaultProfileImage($currentUser['id']) ?>"
+                    <img src="<?= currentUser()['profile_image'] ?? defaultProfileImage(currentUser()['id']) ?>"
                         alt="Profile"
                         class="w-8 h-8 rounded-full object-cover border" />
                     <span class="font-semibold text-primary">
-                        <?= htmlspecialchars($currentUser['name']) ?>
+                        <?= htmlspecialchars(currentUser()['name']) ?>
                     </span>
                 </span>
                 <a href="/Views/edit.php" class="btn btn-ghost btn-sm w-full">Edit Profile</a>

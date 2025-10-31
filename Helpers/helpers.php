@@ -124,13 +124,6 @@ if (!function_exists('redirect')) {
     }
 }
 
-if (!function_exists('array_last')) {
-    function array_last(?array $array): mixed
-    {
-        return empty($array) ? null : end($array);
-    }
-}
-
 if (!function_exists('diffForHumans')) {
     function diffForHumans($datetime)
     {
@@ -146,17 +139,6 @@ if (!function_exists('diffForHumans')) {
     }
 }
 
-if (!function_exists('saveArrayToJsonFile')) {
-    function saveArrayToJsonFile(string $filename, array $data)
-    {
-        $jsonStr = json_encode($data, JSON_PRETTY_PRINT);
-        file_put_contents($filename, $jsonStr);
-    }
-}
+require_once 'db.php';
 require_once 'users.php';
 require_once 'posts.php';
-require_once 'db.php';
-require_once 'usersDb.php';
-require_once 'postsDb.php';
-
-$currentUser = !empty($_SESSION['user_id']) ? getUserByIdDB($_SESSION['user_id']) : null;

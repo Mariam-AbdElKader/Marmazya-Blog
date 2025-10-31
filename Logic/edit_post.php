@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $id = (int) $_POST['id'];
 $post = getPostById($id);
-if (is_null($post) || $post['user_id'] !== $_SESSION['user']['id']) {
+if (is_null($post) || (int) $post['user_id'] !== $_SESSION['user_id']) {
     return redirect('home');
 }
 

@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 $data = $_POST;
-$user = getUserByEmailDB($data['email']);
+$user = getUserByEmail($data['email']);
 if ($user && password_verify($data['password'], $user['password'])) {
     $_SESSION['user_id'] = $user['id'];
     redirect('home');

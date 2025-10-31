@@ -18,7 +18,7 @@ unset($_SESSION['errors'], $_SESSION['old']);
                             <input type="text"
                                 name="name"
                                 placeholder="John Doe"
-                                value="<?= htmlspecialchars($currentUser['name']) ?>"
+                                value="<?= htmlspecialchars(currentUser()['name']) ?>"
                                 class="input input-bordered w-full<?php if (!empty($errors['name'])) echo ' input-error'; ?>"
                                 required>
                             <span>Name</span>
@@ -36,7 +36,7 @@ unset($_SESSION['errors'], $_SESSION['old']);
                             <input type="email"
                                 name="email"
                                 placeholder="mail@example.com"
-                                value="<?= htmlspecialchars($currentUser['email']) ?>"
+                                value="<?= htmlspecialchars(currentUser()['email']) ?>"
                                 class="input input-bordered w-full<?php if (!empty($errors['email'])) echo ' input-error'; ?>"
                                 required>
                             <span>Email</span>

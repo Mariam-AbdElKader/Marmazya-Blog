@@ -1,4 +1,5 @@
 <?php
+
 if(!function_exists('getPostMaxLength')){
     function getPostMaxLength(): int
     {
@@ -6,88 +7,53 @@ if(!function_exists('getPostMaxLength')){
     }
 }
 
-if (!function_exists('getPostsFileName')) {
-    function getPostsFileName()
-    {
-        if(!file_exists(__DIR__ . '/../Storage')){
-            mkdir(__DIR__ . '/../Storage', 0777, true);
-        }
-        return __DIR__ . '/../Storage/posts.json';
-    }
-};
-
 if (!function_exists('getPosts')) {
     function getPosts(): array
     {
-        $str = file_exists(getPostsFileName()) ? file_get_contents(getPostsFileName()) : '';
-        return json_decode($str, true) ?? [];
+        $conn = dbConnect();
+        $result = $conn->query("SELECT posts.*, users.name AS author_name, users.profile_image AS author_image 
+        FROM posts 
+        LEFT JOIN users ON posts.user_id = users.id 
+        ORDER BY posts.id DESC");
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
-};
+}
 
-if (!function_exists('savePosts')) {
-    function savePosts(array $posts)
+
+if (!function_exists('addPost')) {
+    function addPost(string $message, ?int $user_id): void
     {
-        saveArrayToJsonFile(getPostsFileName(), $posts);
+        $conn = dbConnect();
+        $stmt = $conn->prepare("INSERT INTO posts (message, user_id) VALUES (?, ?)");
+        $stmt->bind_param("si", $message, $user_id);
+        $stmt->execute();
     }
 }
 
 if (!function_exists('getPostById')) {
     function getPostById(int $id): ?array
     {
-        $posts = getPosts();
-        foreach ($posts as $post) {
-            if ($post['id'] === $id) {
-                return $post;
-            }
-        }
-        return null;
+        $conn = dbConnect();
+        $result = $conn->query("SELECT * FROM posts WHERE id = $id");
+        return $result->fetch_assoc();
     }
-};
+}
 
-if (!function_exists('addPost')) {
-    function addPost(array $post)
-    {
-        $posts = getPosts();
-        $lastPost = array_last($posts);
-        $lastId = !is_null($lastPost) ? $lastPost['id'] : 0;
-        $nextId = $lastId + 1;
-        $post['id'] = $nextId;
-        $posts[] = $post;
-        savePosts($posts);
-
-        return $post;
-    }
-};
 
 if (!function_exists('updatePost')) {
-    function updatePost(int $id, string $message)
+    function updatePost(int $id, string $message): void
     {
-        $posts = getPosts();
-        foreach ($posts as $key => $post) {
-            if ($post['id'] === $id) {
-                $posts[$key]['message'] = $message;
-                break;
-            }
-        }
-        savePosts($posts);
-
-        return $post;
+        $conn = dbConnect();
+        $stmt = $conn->prepare("UPDATE posts SET message = ? WHERE id = ?");
+        $stmt->bind_param("si", $message, $id);
+        $stmt->execute();
     }
-};
+}
 
 if (!function_exists('deletePost')) {
-    function deletePost(int $id)
+    function deletePost(int $id): void
     {
-        $posts = getPosts();
-        foreach ($posts as $key => $post) {
-            if ($post['id'] === $id) {
-                unset($posts[$key]);
-                break;
-            }
-        }
-        $posts = array_values($posts); // Reset the keys after deletion
-        savePosts($posts);
-
-        return $post;
+        $conn = dbConnect();
+        $conn->query("DELETE FROM posts WHERE id = $id");
     }
-};
+}

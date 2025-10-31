@@ -6,12 +6,12 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 $message = sanitize($_POST['message']);
-$user_id = $_SESSION['user']['id'] ?? null;
+$user_id = $_SESSION['user_id'] ?? null;
 
-addPost([
-    'message' => $message,
-    'user_id' => $user_id,
-    'created_at' => time()
-]);
+addPost(
+    $message,
+    $user_id
+);
+
 
 redirect('home');
