@@ -6,13 +6,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 $data = $_POST;
-$users = getUsers();
-
-foreach ($users as $user) {
-    if ($data['email'] === $user['email'] && $data['password'] === $user['password']) {
-        $_SESSION['user'] = $user;
-        redirect('home');
-    }
+$user = getUserByEmail($data['email']);
+if ($user && password_verify($data['password'], $user['password'])) {
+    $_SESSION['user_id'] = $user['id'];
+    redirect('home');
 }
 
 $errors = [

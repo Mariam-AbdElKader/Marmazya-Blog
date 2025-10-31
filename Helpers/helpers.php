@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('Africa/Cairo');
 session_start();
 
 if (!function_exists('sanitize')) {
@@ -19,10 +20,27 @@ if (!function_exists('validate')) {
                     $errors[$key] = ucfirst($key) . ' can not be empty';
                     break;
                 }
+
+                #skip other validations if field is empty
+                if (empty($data[$key])) {
+                    continue;
+                }
+
                 #email
                 if ($rule === 'email' && !filter_var($data[$key], FILTER_VALIDATE_EMAIL)) {
                     $errors[$key] = 'Invalid Email format';
                     break;
+                }
+                #unique
+                if (str_starts_with($rule, 'unique:')) {
+                    $tableAndColumn = explode(',', substr($rule, 7));
+                    $table = $tableAndColumn[0];
+                    $column = $tableAndColumn[1];
+                    $value = $data[$key];
+                    if (exists($table, $column, $value)) {
+                        $errors[$key] = ucfirst($key) . " must be unique.";
+                        break;
+                    };
                 }
                 #number
                 if ($rule === 'number' && !is_numeric($data[$key])) {
@@ -107,13 +125,6 @@ if (!function_exists('redirect')) {
     }
 }
 
-if (!function_exists('array_last')) {
-    function array_last(?array $array): mixed
-    {
-        return empty($array) ? null : end($array);
-    }
-}
-
 if (!function_exists('diffForHumans')) {
     function diffForHumans($datetime)
     {
@@ -129,13 +140,6 @@ if (!function_exists('diffForHumans')) {
     }
 }
 
-if (!function_exists('saveArrayToJsonFile')) {
-    function saveArrayToJsonFile(string $filename, array $data)
-    {
-        $jsonStr = json_encode($data, JSON_PRETTY_PRINT);
-        file_put_contents($filename, $jsonStr);
-    }
-}
-
+require_once 'db.php';
 require_once 'users.php';
 require_once 'posts.php';

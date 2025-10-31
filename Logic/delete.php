@@ -8,7 +8,7 @@ if($_SERVER['REQUEST_METHOD'] !== 'POST'){
 $id =(int) $_POST['id'];
 $post = getPostById($id);
 
-if($post && $post['user_id'] === $_SESSION['user']['id']){
+if($post && (int) $post['user_id'] === $_SESSION['user_id']){
     deletePost($id);
     redirect('home');
 }

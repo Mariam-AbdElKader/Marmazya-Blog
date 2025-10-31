@@ -1,7 +1,7 @@
 <?php
 $title = 'Home';
 require 'header.php';
-$posts = array_reverse(getPosts());
+$posts = getPosts();
 ?>
 
 <div class="max-w-2xl mx-auto">
@@ -30,9 +30,14 @@ $posts = array_reverse(getPosts());
   </div>
 
   <?php
+  $anonymousUser = anonymousUser();
   foreach ($posts as $post) {
-    $post['user'] = is_null($post['user_id']) ? anonymousUser() : getUserById($post['user_id']);
-    $post['created_at'] = new DateTimeImmutable()->setTimestamp($post['created_at']);
+    if(empty($post['user_id'])) {
+      $post['author_name'] = $anonymousUser['name'];
+      $post['author_image'] = $anonymousUser['profile_image'];
+    }
+    $post['created_at'] = new DateTimeImmutable($post['created_at']);
+    $post['updated_at'] = new DateTimeImmutable($post['updated_at']);
     include 'Component/post_card.php';
   }
   if (empty($posts)) {

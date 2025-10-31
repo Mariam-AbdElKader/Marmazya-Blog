@@ -3,8 +3,8 @@
         <div class="flex space-x-3">
             <div class="avatar">
                 <div class="size-10 rounded-full">
-                    <img src="<?= $post['user']['profile_image'] ?? defaultProfileImage($post['user']['id']) ?>"
-                        alt="<?= htmlspecialchars($post['user']['name']) ?>'s avatar" class="rounded-full" />
+                    <img src="<?= $post['author_image'] ?? defaultProfileImage($post['user_id']) ?>"
+                        alt="<?= htmlspecialchars($post['author_name']) ?>'s avatar" class="rounded-full" />
                 </div>
             </div>
 
@@ -12,16 +12,26 @@
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-1">
                         <p class="text-sm font-semibold">
-                            <?= htmlspecialchars($post['user']['name']) ?>
+                            <?= htmlspecialchars($post['author_name'])?>
                         </p>
+                        <?php
+                        $createdAtDiff = diffForHumans($post['created_at']);
+                        $updatedAtDiff = diffForHumans($post['updated_at']);
+                        ?>
                         <span class="text-base-content/60">·</span>
+                         <p class="text-sm text-base-content/60">
+                            <?= $createdAtDiff ?>
+                        </p>
                         <p class="text-sm text-base-content/60">
-                            <?= diffForHumans($post['created_at']) ?>
+                            <span class="text-base-content/60">·</span>
+                            <?php if ($post['updated_at'] > $post['created_at']): ?>
+                                edited <?= $updatedAtDiff === $createdAtDiff ? '' : $updatedAtDiff ?>
+                            <?php endif; ?>
                         </p>
                     </div>
 
-                    <?php if (!empty($_SESSION['user']) && $_SESSION['user']['id'] === $post['user_id']): ?>
-                        <!-- Edit/Delete Buttons -->
+                    <?php if (!empty($_SESSION['user_id']) && $_SESSION['user_id'] === (int) $post['user_id']): ?>
+                    <!-- Edit/Delete Buttons -->
                         <div class="flex gap-1">
                             <a href="/Views/edit_post.php?id=<?= $post['id'] ?>" class="btn btn-ghost btn-xs">
                                 Edit
@@ -35,7 +45,7 @@
                                 </button>
                             </form>
                         </div>
-                    <?php endif; ?>
+                    <?php endif; ?>               
                 </div>
 
                 <p class="mt-1">

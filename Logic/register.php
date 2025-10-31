@@ -10,16 +10,16 @@ $data = array_map('sanitize', $_POST);
 
 $rules = [
     'name' => ['required'],
-    'email' => ['required', 'email'],
+    'email' => ['required', 'email','unique:users,email'],
     'password' => ['required', 'min:8', 'max:32', 'password', 'confirmed'],
 ];
 $errors = validate($data, $rules);
 
 
 if (empty($errors)) {
-    unset($data['password_confirmation']);
-    $user = addUser($data);
-    $_SESSION['user'] = $user;
+    $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
+    $userId = addUser($data);
+    $_SESSION['user_id'] = $userId;
 
     redirect('home');
 }
