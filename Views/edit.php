@@ -18,7 +18,7 @@ unset($_SESSION['errors'], $_SESSION['old']);
                             <input type="text"
                                 name="name"
                                 placeholder="John Doe"
-                                value="<?= htmlspecialchars($_SESSION['user']['name']) ?>"
+                                value="<?= htmlspecialchars($currentUser['name']) ?>"
                                 class="input input-bordered w-full<?php if (!empty($errors['name'])) echo ' input-error'; ?>"
                                 required>
                             <span>Name</span>
@@ -36,7 +36,7 @@ unset($_SESSION['errors'], $_SESSION['old']);
                             <input type="email"
                                 name="email"
                                 placeholder="mail@example.com"
-                                value="<?= htmlspecialchars($_SESSION['user']['email']) ?>"
+                                value="<?= htmlspecialchars($currentUser['email']) ?>"
                                 class="input input-bordered w-full<?php if (!empty($errors['email'])) echo ' input-error'; ?>"
                                 required>
                             <span>Email</span>
@@ -53,11 +53,10 @@ unset($_SESSION['errors'], $_SESSION['old']);
                         <label class="floating-label">
                             <input type="password"
                                 name="password"
-                                value="<?= htmlspecialchars($_SESSION['user']['password']) ?>"
                                 placeholder="••••••••"
                                 class="input input-bordered w-full<?php if (!empty($errors['password'])) echo ' input-error'; ?>"
-                                required>
-                            <span>Password</span>
+                                >
+                            <span>Password (if empty, no change)</span>
                         </label>
                         <?php if (!empty($errors['password'])): ?>
                             <div class="label -mt-2">
@@ -71,10 +70,9 @@ unset($_SESSION['errors'], $_SESSION['old']);
                         <label class="floating-label">
                             <input type="password"
                                 name="password_confirmation"
-                                value="<?= htmlspecialchars($_SESSION['user']['password']) ?>"
                                 placeholder="••••••••"
                                 class="input input-bordered w-full"
-                                required>
+                                >
                             <span>Confirm Password</span>
                         </label>
                     </div>

@@ -19,10 +19,27 @@ if (!function_exists('validate')) {
                     $errors[$key] = ucfirst($key) . ' can not be empty';
                     break;
                 }
+
+                #skip other validations if field is empty
+                if (empty($data[$key])) {
+                    continue;
+                }
+
                 #email
                 if ($rule === 'email' && !filter_var($data[$key], FILTER_VALIDATE_EMAIL)) {
                     $errors[$key] = 'Invalid Email format';
                     break;
+                }
+                #unique
+                if (str_starts_with($rule, 'unique:')) {
+                    $tableAndColumn = explode(',', substr($rule, 7));
+                    $table = $tableAndColumn[0];
+                    $column = $tableAndColumn[1];
+                    $value = $data[$key];
+                    if (exists($table, $column, $value)) {
+                        $errors[$key] = ucfirst($key) . " must be unique.";
+                        break;
+                    };
                 }
                 #number
                 if ($rule === 'number' && !is_numeric($data[$key])) {
@@ -136,6 +153,10 @@ if (!function_exists('saveArrayToJsonFile')) {
         file_put_contents($filename, $jsonStr);
     }
 }
-
 require_once 'users.php';
 require_once 'posts.php';
+require_once 'db.php';
+require_once 'usersDb.php';
+require_once 'postsDb.php';
+
+$currentUser = !empty($_SESSION['user_id']) ? getUserByIdDB($_SESSION['user_id']) : null;

@@ -10,7 +10,7 @@ $data = array_map('sanitize', $_POST);
 $rules = [
     'name' => ['required'],
     'email' => ['required', 'email'],
-    'password' => ['required', 'min:8', 'max:32', 'password', 'confirmed'],
+    'password' => ['min:8', 'max:32', 'password', 'confirmed'],
 ];
 
 $errors = validate($data, $rules);
@@ -49,15 +49,15 @@ if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPL
     if (move_uploaded_file($_FILES['profile_image']['tmp_name'], $uploadFilePath)) {
         $data['profile_image'] = '/Storage/images/users/' . $fileName;
         // Optionally, delete the old image if it exists
-        if (!empty($_SESSION['user']['profile_image']) && file_exists(__DIR__ . '/..' . $_SESSION['user']['profile_image'])) {
-            unlink(__DIR__ . '/..' . $_SESSION['user']['profile_image']);
+        if (!empty($currentUser['profile_image']) && file_exists(__DIR__ . '/..' . $currentUser['profile_image'])) {
+            unlink(__DIR__ . '/..' . $currentUser['profile_image']);
         }
     }
 } else {
     // If no new image is uploaded, retain the old image path
-    $data['profile_image'] = $_SESSION['user']['profile_image'] ?? null;
+    $data['profile_image'] = $currentUser['profile_image'] ?? null;
 }
 unset($data['password_confirmation']);
-$_SESSION['user'] = array_merge($_SESSION['user'], $data);
-updateUser($_SESSION['user']['id'], $data);
+$data['password'] = !empty($data['password']) ? password_hash($data['password'], PASSWORD_BCRYPT) : null;
+updateUserDB($currentUser['id'], $data);
 redirect('home');

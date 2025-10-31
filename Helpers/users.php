@@ -2,7 +2,7 @@
 if (!function_exists('getUsersFileName')) {
     function getUsersFileName()
     {
-        if(!file_exists(__DIR__ . '/../Storage')){
+        if (!file_exists(__DIR__ . '/../Storage')) {
             mkdir(__DIR__ . '/../Storage', 0777, true);
         }
         return __DIR__ . '/../Storage/users.json';
@@ -66,37 +66,5 @@ if (!function_exists('updateUser')) {
         saveUsers($users);
 
         return $user;
-    }
-};
-
-if(!function_exists('defaultProfileImage')){
-    function defaultProfileImage($id): string{
-        return "https://avatars.laravel.cloud/Marmazya_$id?vibe=sunset";
-    }
-}
-if(!function_exists('anonymousUser')){
-    function anonymousUser(): array{
-        return [
-            'id' => null,
-            'name' => 'Anonymous',
-            'profile_image' => 'https://avatars.laravel.cloud/Marmazya_anonymous?vibe=sunset',
-        ];
-    }
-}
-
-if (!function_exists('authOnly()')) {
-    function authOnly()
-    {
-        if (empty($_SESSION['user'])) {
-            redirect('login');
-        }
-    }
-};
-if (!function_exists('guestOnly()')) {
-    function guestOnly()
-    {
-        if (!empty($_SESSION['user'])) {
-            redirect('home');
-        }
     }
 };
