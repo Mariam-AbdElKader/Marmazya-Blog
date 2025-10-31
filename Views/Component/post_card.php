@@ -14,10 +14,20 @@
                         <p class="text-sm font-semibold">
                             <?= htmlspecialchars($post['author_name'])?>
                         </p>
+                        <?php
+                        $createdAtDiff = diffForHumans($post['created_at']);
+                        $updatedAtDiff = diffForHumans($post['updated_at']);
+                        ?>
                         <span class="text-base-content/60">·</span>
                          <p class="text-sm text-base-content/60">
-                            <?= diffForHumans($post['created_at']) ?>
-                        </p> 
+                            <?= $createdAtDiff ?>
+                        </p>
+                        <p class="text-sm text-base-content/60">
+                            <span class="text-base-content/60">·</span>
+                            <?php if ($post['updated_at'] > $post['created_at']): ?>
+                                edited <?= $updatedAtDiff === $createdAtDiff ? '' : $updatedAtDiff ?>
+                            <?php endif; ?>
+                        </p>
                     </div>
 
                     <?php if (!empty($_SESSION['user_id']) && $_SESSION['user_id'] === (int) $post['user_id']): ?>

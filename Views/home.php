@@ -37,6 +37,7 @@ $posts = getPosts();
       $post['author_image'] = $anonymousUser['profile_image'];
     }
     $post['created_at'] = new DateTimeImmutable($post['created_at']);
+    $post['updated_at'] = new DateTimeImmutable($post['updated_at']);
     include 'Component/post_card.php';
   }
   if (empty($posts)) {

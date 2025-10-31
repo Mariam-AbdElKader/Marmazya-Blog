@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('Africa/Cairo');
 session_start();
 
 if (!function_exists('sanitize')) {
