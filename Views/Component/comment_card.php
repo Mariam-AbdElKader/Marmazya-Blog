@@ -11,6 +11,9 @@
             <div>
                 <p class="text-sm font-medium"><?= htmlspecialchars($comment['author_name']) ?></p>
                 <p class="text-sm"><?= htmlspecialchars($comment['comment']) ?></p>
+                
+                <?php include 'like_comment_component.php' ?>
+                
                 <p class="text-xs text-base-content/60 mt-1">
                     <?= diffForHumans(new DateTimeImmutable($comment['created_at'])) ?>
                 </p>

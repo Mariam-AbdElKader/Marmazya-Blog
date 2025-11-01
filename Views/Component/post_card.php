@@ -51,7 +51,10 @@
                 <p class="mt-1">
                     <?= nl2br($post['message']) ?>
                 </p>
-                <?php include 'comment_section.php' ?>
+                <?php
+                    include 'like_post_component.php';
+                    include 'comment_section.php';
+                 ?>
             </div>
         </div>
     </div>
