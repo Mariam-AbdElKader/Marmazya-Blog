@@ -1,4 +1,4 @@
-<div class="card bg-base-100 mb-5 shadow-xl">
+<div id="<?= $post['id'] ?>" class="card bg-base-100 mb-5 shadow-xl">
     <div class="card-body">
         <div class="flex space-x-3">
             <div class="avatar">
@@ -12,14 +12,14 @@
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-1">
                         <p class="text-sm font-semibold">
-                            <?= htmlspecialchars($post['author_name'])?>
+                            <?= htmlspecialchars($post['author_name']) ?>
                         </p>
                         <?php
                         $createdAtDiff = diffForHumans($post['created_at']);
                         $updatedAtDiff = diffForHumans($post['updated_at']);
                         ?>
                         <span class="text-base-content/60">·</span>
-                         <p class="text-sm text-base-content/60">
+                        <p class="text-sm text-base-content/60">
                             <?= $createdAtDiff ?>
                         </p>
                         <p class="text-sm text-base-content/60">
@@ -31,7 +31,7 @@
                     </div>
 
                     <?php if (!empty($_SESSION['user_id']) && $_SESSION['user_id'] === (int) $post['user_id']): ?>
-                    <!-- Edit/Delete Buttons -->
+                        <!-- Edit/Delete Buttons -->
                         <div class="flex gap-1">
                             <a href="/Views/edit_post.php?id=<?= $post['id'] ?>" class="btn btn-ghost btn-xs">
                                 Edit
@@ -45,12 +45,13 @@
                                 </button>
                             </form>
                         </div>
-                    <?php endif; ?>               
+                    <?php endif; ?>
                 </div>
 
                 <p class="mt-1">
                     <?= nl2br($post['message']) ?>
                 </p>
+                <?php include 'comment_section.php' ?>
             </div>
         </div>
     </div>
