@@ -2,6 +2,7 @@
 $title = 'Home';
 require 'header.php';
 $posts = getPosts();
+$comments = getComments();
 ?>
 
 <div class="max-w-2xl mx-auto">
@@ -32,7 +33,7 @@ $posts = getPosts();
   <?php
   $anonymousUser = anonymousUser();
   foreach ($posts as $post) {
-    if(empty($post['user_id'])) {
+    if (empty($post['user_id'])) {
       $post['author_name'] = $anonymousUser['name'];
       $post['author_image'] = $anonymousUser['profile_image'];
     }

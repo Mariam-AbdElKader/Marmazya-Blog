@@ -15,4 +15,4 @@ $message = sanitize($_POST['message']);
 
 updatePost($id, $message);
 
-redirect('home');
+redirect('home', $id);

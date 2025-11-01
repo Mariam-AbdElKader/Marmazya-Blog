@@ -6,11 +6,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 $id = (int) $_POST['id'];
-$post = getPostById($id);
+$comment = getCommentById($id);
 
-if ($post && (int) $post['user_id'] === $_SESSION['user_id']) {
-    deletePost($id);
-    redirect('home', $id);
+if ($comment && (int) $comment['user_id'] === $_SESSION['user_id']) {
+    deleteComment($id);
+    redirect('home', $comment['post_id']);
 }
-
 redirect('home');

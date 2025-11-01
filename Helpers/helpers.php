@@ -101,7 +101,7 @@ if (!function_exists('dd')) {
 }
 
 if (!function_exists('redirect')) {
-    function redirect(string $page)
+    function redirect(string $page, $id = null)
     {
         // نحدد البروتوكول (http أو https)
         $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https" : "http";
@@ -119,7 +119,9 @@ if (!function_exists('redirect')) {
 
         // نكون الرابط
         $url = $scheme . "://" . $host .  $basePath . $page;
-
+        if ($id) {
+            $url .= "#$id";
+        }
         header("Location: " . $url);
         exit;
     }
@@ -143,3 +145,4 @@ if (!function_exists('diffForHumans')) {
 require_once 'db.php';
 require_once 'users.php';
 require_once 'posts.php';
+require_once 'comments.php';
